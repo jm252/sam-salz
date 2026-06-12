@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accessibility Statement | Sam Salz</title>
+    <meta
+      name="description"
+      content="Accessibility statement for samsalz.org — our commitment to making the site usable for everyone, conformance status, known limitations, and how to report issues."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="Sam Salz — back to home">
+          <div class="brand-logo" aria-hidden="true">SS</div>
+          <div class="brand-text">
+            <span class="brand-name">Sam Salz</span>
+            <span class="brand-tagline">Texas A&amp;M Football Alum · Orthodox Jewish Speaker</span>
+          </div>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="index.html#booking" class="nav-cta">Book Consultation</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="section">
+        <div class="container legal-content">
+          <h1>Accessibility Statement</h1>
+          <p>
+            Sam Salz is committed to ensuring this website is accessible to everyone, including
+            people with disabilities. We believe everyone should be able to learn about Sam's
+            story and reach out about speaking engagements, regardless of how they access the web.
+          </p>
+
+          <h2>Conformance status</h2>
+          <p>
+            We aim to conform to the
+            <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer">
+              Web Content Accessibility Guidelines (WCAG) 2.1, Level AA</a>.
+            These guidelines explain how to make web content more accessible for people with a wide
+            range of disabilities. This site is <strong>substantially conformant</strong> with WCAG
+            2.1 AA, meaning most of the content meets the standard, with the known exceptions noted
+            below.
+          </p>
+
+          <h2>What we've done</h2>
+          <ul>
+            <li>A “skip to main content” link for keyboard users</li>
+            <li>Keyboard navigability with clear, visible focus indicators</li>
+            <li>Text alternatives describing the interactive speaking map</li>
+            <li>Descriptive labels for icons, statistics, and interactive areas</li>
+            <li>Color combinations chosen to meet contrast requirements</li>
+            <li>Support for reduced-motion preferences to limit animation</li>
+            <li>Semantic structure with proper headings and landmarks</li>
+          </ul>
+
+          <h2>Known limitations</h2>
+          <p>Despite our efforts, some areas have limitations:</p>
+          <ul>
+            <li>
+              <strong>Booking calendar:</strong> the scheduling tool is provided by a third party
+              (Calendly). Its internal accessibility is maintained by Calendly. If you have trouble
+              booking through it, please email us and we'll arrange your booking directly.
+            </li>
+            <li>
+              <strong>Interactive map:</strong> the map is built with a third-party mapping library
+              whose fine-grained keyboard controls are limited. A full text summary of where Sam has
+              spoken is provided alongside it so the information is available to everyone.
+            </li>
+          </ul>
+
+          <h2>Feedback &amp; contact</h2>
+          <p>
+            We welcome your feedback on the accessibility of this site. If you encounter a barrier or
+            need information in a different format, please contact us — we aim to respond within a few
+            business days:
+          </p>
+          <p>
+            <a href="mailto:sam@samsalz.com?subject=Website%20Accessibility">sam@samsalz.com</a>
+          </p>
+
+          <p class="legal-meta">Last reviewed: June 12, 2026.</p>
+
+          <p><a href="index.html">&larr; Back to the homepage</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <span>&copy; <span id="current-year">2026</span> Sam Salz. All rights reserved.</span>
+        </div>
+        <div class="footer-right">
+          <a href="index.html">Home</a>
+          <a href="index.html#booking">Book Sam</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

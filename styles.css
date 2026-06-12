@@ -715,6 +715,51 @@ h6 {
   }
 }
 
+/* Legal / statement pages (e.g. accessibility statement) */
+.legal-content {
+  max-width: 760px;
+}
+
+.legal-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.legal-content h2 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.legal-content ul {
+  margin: 0 0 1.5rem 1.25rem;
+  line-height: 1.7;
+}
+
+.legal-content li {
+  margin-bottom: 0.5rem;
+}
+
+.legal-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.legal-content a:hover {
+  color: #ffffff;
+}
+
+.legal-meta {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
 /* ---------- Accessibility ---------- */
 
 /* Screen-reader-only content: available to assistive tech, hidden visually */
