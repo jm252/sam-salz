@@ -96,9 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Impact-stats counters — tick up from 0 when scrolled into view.
   const statValues = document.querySelectorAll('.stat-value[data-target]');
   if (statValues.length > 0) {
+    const reduceMotion =
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const runCount = el => {
       const target = parseInt(el.getAttribute('data-target'), 10) || 0;
       const suffix = el.getAttribute('data-suffix') || '';
+      if (reduceMotion) {
+        el.textContent = target.toLocaleString('en-US') + suffix;
+        return;
+      }
       const duration = 1600;
       const startTime = performance.now();
       const step = now => {

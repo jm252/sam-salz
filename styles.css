@@ -714,3 +714,66 @@ h6 {
     font-size: 2.5rem;
   }
 }
+
+/* ---------- Accessibility ---------- */
+
+/* Screen-reader-only content: available to assistive tech, hidden visually */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: off-screen until focused via keyboard */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 1000;
+  background: #ffffff;
+  color: #500000;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Clear, high-contrast keyboard focus indicator */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+.social-card:focus-visible,
+.btn:focus-visible,
+.nav-cta:focus-visible {
+  outline: 3px solid #EAAA00;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
