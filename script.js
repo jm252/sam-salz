@@ -93,6 +93,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Impact-stats counters — tick up from 0 when scrolled into view.
+  const statValues = document.querySelectorAll('.stat-value[data-target]');
+  if (statValues.length > 0) {
+    const runCount = el => {
+      const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      const suffix = el.getAttribute('data-suffix') || '';
+      const duration = 1600;
+      const startTime = performance.now();
+      const step = now => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+        const value = Math.round(target * eased);
+        el.textContent = value.toLocaleString('en-US') + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const statObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              runCount(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 }
+      );
+      statValues.forEach(el => statObserver.observe(el));
+    } else {
+      statValues.forEach(el => {
+        const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+        el.textContent =
+          target.toLocaleString('en-US') + (el.getAttribute('data-suffix') || '');
+      });
+    }
+  }
+
   // Map Initialization: Choropleth (States light up)
   const mapElement = document.getElementById('map');
   if (mapElement && typeof L !== 'undefined') {
