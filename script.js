@@ -101,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const map = L.map('map', {
       scrollWheelZoom: false,
       zoomControl: false // We recall re-add it or just leave it off for cleaner look
-    }).setView([37.8, -96], 4);
+    });
+    // Frame all of North America so the US states, Canadian provinces and
+    // Mexico are all visible at once.
+    map.fitBounds([[14, -125], [56, -58]]);
 
     // Re-add zoom control in a better position if desire, or leave distinct. 
     // Let's add it bottom-right for "clean"
@@ -117,113 +120,120 @@ document.addEventListener('DOMContentLoaded', () => {
       maxZoom: 20
     }).addTo(map);
 
-    // 3. Data: Speaking Event Counts by State
-    // "Clean" implies we don't need exact numbers everywhere, but relative intensity
-    const stateData = {
-      "Texas": 100,         // Home base - Highest
-      "New York": 60,       // High
-      "California": 45,     // Medium-High
-      "Florida": 40,        // Medium
-      "Illinois": 30,       // Medium
-      "Pennsylvania": 25,   // Low-Medium
-      "Georgia": 20,        // Low
-      "Ohio": 15,
-      "New Jersey": 35,
-      "Massachusetts": 25,
-      "District of Columbia": 30,
-      "Maryland": 20
+    // 3. Data: speaking engagements per region (US states + Canadian provinces).
+    // Tallied from Sam's speaking-engagements record. Canada's provinces are
+    // colored individually; Mexico is colored as a whole country below.
+    const regionData = {
+      // United States
+      "New York": 11,
+      "California": 8,
+      "Texas": 7,
+      "Pennsylvania": 5,
+      "Georgia": 3,
+      "New Jersey": 3,
+      "Colorado": 2,
+      "Arizona": 2,
+      "Florida": 1,
+      "Maryland": 1,
+      "Louisiana": 1,
+      "Connecticut": 1,
+      "North Carolina": 1,
+      "Nevada": 1,
+      "New Hampshire": 1,
+      "Kansas": 1,
+      "Wisconsin": 1,
+      "Ohio": 1,
+      "District of Columbia": 1,
+      // Canada (provinces)
+      "Ontario": 2,           // Toronto + Kingston
+      "Quebec": 1,            // Montreal
+      "British Columbia": 1   // Vancouver
     };
+
+    // Mexico is colored as one whole country (the Mexico City engagement).
+    const MEXICO_COUNT = 1;
 
     // 4. Color Scale Function
     function getColor(d) {
-      return d > 80 ? '#b91c1c' : // Brand Red (Highest)
-        d > 40 ? '#ea580c' : // Dark Orange
-          d > 20 ? '#fb923c' : // Brand Orange
-            d > 10 ? '#fdba74' : // Light Orange
-              d > 0 ? '#fed7aa' : // Very Light Orange
+      return d >= 10 ? '#b91c1c' : // Brand Red (10+ engagements)
+        d >= 6 ? '#ea580c' : // Dark Orange (6-9)
+          d >= 3 ? '#fb923c' : // Brand Orange (3-5)
+            d >= 2 ? '#fdba74' : // Light Orange (2)
+              d >= 1 ? '#fed7aa' : // Very Light Orange (1)
                 'transparent'; // No events
     }
 
-    // 5. Style Function for GeoJSON
-    function style(feature) {
-      const count = stateData[feature.properties.name] || 0;
+    // 5. Style for a given engagement count
+    function styleForCount(count) {
       return {
-        fillColor: count > 0 ? getColor(count) : 'rgba(255,255,255,0.02)', // Faint white for inactive states
+        fillColor: count > 0 ? getColor(count) : 'rgba(255,255,255,0.02)', // Faint for inactive regions
         weight: 1,
         opacity: 1,
         color: 'rgba(148, 163, 184, 0.3)', // Border color
         dashArray: '',
-        fillOpacity: count > 0 ? 0.7 : 0.1 // Make active states pop, inactive fade back
+        fillOpacity: count > 0 ? 0.7 : 0.1 // Active regions pop, inactive fade back
       };
     }
 
-    // 6. Interaction Handlers
-    function highlightFeature(e) {
-      const layer = e.target;
-      const count = stateData[layer.feature.properties.name] || 0;
-
-      layer.setStyle({
-        weight: 2,
-        color: '#fb923c', // Highlight border orange
-        dashArray: '',
-        fillOpacity: 0.9
-      });
-
-      layer.bringToFront();
-
-      // Show Tooltip
-      if (count > 0) {
-        // Only show tooltip if there's actual data, or show "Coming soon"
-        const content = `<b>${layer.feature.properties.name}</b><br/>${count > 80 ? 'Frequent Speaker' : count > 30 ? 'Regular Stops' : 'Past Events'}`;
-        layer.bindTooltip(content, {
-          className: 'map-tooltip',
-          direction: 'top',
-          sticky: true,
-          opacity: 1
-        }).openTooltip();
-      } else {
-        layer.bindTooltip(layer.feature.properties.name, {
-          className: 'map-tooltip',
-          direction: 'top',
-          sticky: true,
-          opacity: 1
-        }).openTooltip();
-      }
+    // 6. Add a colored region layer from a GeoJSON URL.
+    //    getCount(feature) -> number of engagements for that shape
+    //    getLabel(feature) -> name shown in the hover tooltip
+    function addChoroplethLayer(url, getCount, getLabel) {
+      return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          L.geoJson(data, {
+            style: feature => styleForCount(getCount(feature)),
+            onEachFeature: (feature, layer) => {
+              const count = getCount(feature);
+              const name = getLabel(feature);
+              layer.on({
+                mouseover: e => {
+                  e.target.setStyle({ weight: 2, color: '#fb923c', dashArray: '', fillOpacity: 0.9 });
+                  e.target.bringToFront();
+                  const content = count > 0
+                    ? `<b>${name}</b><br/>${count} speaking engagement${count === 1 ? '' : 's'}`
+                    : `${name}`;
+                  e.target.bindTooltip(content, {
+                    className: 'map-tooltip',
+                    direction: 'top',
+                    sticky: true,
+                    opacity: 1
+                  }).openTooltip();
+                },
+                mouseout: e => {
+                  e.target.setStyle(styleForCount(count));
+                  e.target.closeTooltip();
+                },
+                click: e => map.fitBounds(e.target.getBounds())
+              });
+            }
+          }).addTo(map);
+        })
+        .catch(err => console.error('Could not load map layer:', url, err));
     }
 
-    function resetHighlight(e) {
-      geojson.resetStyle(e.target);
-      e.target.closeTooltip();
-    }
+    // 7. Load the three region layers (US states, Canadian provinces, Mexico).
+    const byName = feature => regionData[feature.properties.name] || 0;
+    const nameOf = feature => feature.properties.name;
 
-    function zoomToFeature(e) {
-      map.fitBounds(e.target.getBounds());
-    }
-
-    function onEachFeature(feature, layer) {
-      layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-      });
-    }
-
-    // 7. Fetch GeoJSON and Add to Map
-    let geojson;
-
-    // We use a reliable CDN for US States GeoJSON (Low resolution is fine for this view)
-    fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-      .then(response => response.json())
-      .then(data => {
-        geojson = L.geoJson(data, {
-          style: style,
-          onEachFeature: onEachFeature
-        }).addTo(map);
-      })
-      .catch(err => {
-        console.error('Error loading GeoJSON:', err);
-        // Fallback or error handling if offline
-        mapElement.innerHTML = '<div style="color:white; text-align:center; padding-top:2rem;">Map data currently unavailable.</div>';
-      });
+    // United States — state shapes
+    addChoroplethLayer(
+      'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json',
+      byName,
+      nameOf
+    );
+    // Canada — province shapes
+    addChoroplethLayer(
+      'https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/canada.geojson',
+      byName,
+      nameOf
+    );
+    // Mexico — colored as one whole country
+    addChoroplethLayer(
+      'https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/mexico.geojson',
+      () => MEXICO_COUNT,
+      () => 'Mexico'
+    );
   }
 });
