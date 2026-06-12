@@ -4,6 +4,74 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  // ===========================================================================
+  // YouTube subscriber count — updates automatically.
+  // To turn this on: paste your free YouTube Data API key between the quotes
+  // below (replace the PASTE_... text). Nothing else needs to change.
+  // If the key is missing or the request fails, the page simply keeps showing
+  // the number that's already in index.html — so it can never look broken.
+  // ===========================================================================
+  const YOUTUBE_API_KEY = 'PASTE_YOUR_YOUTUBE_API_KEY_HERE';
+  const YOUTUBE_HANDLE = 'SamSalz39'; // from youtube.com/@SamSalz39
+
+  function formatFollowerCount(value) {
+    const n = Number(value);
+    if (!isFinite(n)) return null;
+    if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return String(n);
+  }
+
+  // Adds up every platform's follower number and shows the combined total.
+  // Each social card carries a data-count (its raw number); this sums them,
+  // so the "Total Followers" figure is always correct — including after the
+  // YouTube number updates itself live.
+  function recalcTotalFollowers() {
+    const totalEl = document.getElementById('total-followers');
+    if (!totalEl) return;
+    let total = 0;
+    document.querySelectorAll('.social-card[data-count]').forEach(card => {
+      const n = Number(card.getAttribute('data-count'));
+      if (isFinite(n)) total += n;
+    });
+    const formatted = formatFollowerCount(total);
+    if (formatted) totalEl.textContent = formatted;
+  }
+
+  recalcTotalFollowers();
+
+  const ytCountEl = document.getElementById('youtube-count');
+  if (
+    ytCountEl &&
+    YOUTUBE_API_KEY &&
+    YOUTUBE_API_KEY !== 'PASTE_YOUR_YOUTUBE_API_KEY_HERE'
+  ) {
+    const ytUrl =
+      'https://www.googleapis.com/youtube/v3/channels' +
+      '?part=statistics&forHandle=' +
+      encodeURIComponent(YOUTUBE_HANDLE) +
+      '&key=' +
+      encodeURIComponent(YOUTUBE_API_KEY);
+
+    fetch(ytUrl)
+      .then(response => response.json())
+      .then(data => {
+        const stats =
+          data && data.items && data.items[0] && data.items[0].statistics;
+        const formatted = stats && formatFollowerCount(stats.subscriberCount);
+        if (formatted) {
+          ytCountEl.textContent = formatted + ' Subscribers';
+          const ytCard = ytCountEl.closest('.social-card');
+          if (ytCard) ytCard.setAttribute('data-count', stats.subscriberCount);
+          recalcTotalFollowers();
+        }
+      })
+      .catch(err => {
+        console.error('Could not load YouTube subscriber count:', err);
+        // Leaves the existing number in place.
+      });
+  }
+
   // Scroll reveal animations
   const revealElements = document.querySelectorAll('[data-reveal]');
   if (revealElements.length > 0 && 'IntersectionObserver' in window) {

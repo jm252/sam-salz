@@ -503,6 +503,11 @@ h6 {
   border: 1px solid #333;
 }
 
+.social-card.x .social-icon-box {
+  background: #000000;
+  border: 1px solid #333;
+}
+
 .social-card.linkedin .social-icon-box {
   background: #0077b5;
 }
