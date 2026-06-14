@@ -140,6 +140,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Photo carousel — one photo at a time, click through with arrows or dots.
+  const carousel = document.getElementById('photo-carousel');
+  if (carousel) {
+    const dotsWrap = carousel.querySelector('.carousel-dots');
+    const prevBtn = carousel.querySelector('.carousel-prev');
+    const nextBtn = carousel.querySelector('.carousel-next');
+
+    // Keep the first slide (tefillin) first; shuffle the rest on each load.
+    const rest = Array.from(carousel.querySelectorAll('.carousel-slide')).slice(1);
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    rest.forEach(slide => prevBtn.parentNode.insertBefore(slide, prevBtn));
+
+    const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+    let index = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Show photo ' + (i + 1) + ' of ' + slides.length);
+      dot.addEventListener('click', () => show(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function show(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((s, n) => s.classList.toggle('active', n === index));
+      dots.forEach((d, n) => d.classList.toggle('active', n === index));
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => show(index - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => show(index + 1));
+    carousel.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      else if (e.key === 'ArrowRight') show(index + 1);
+    });
+  }
+
   // Map Initialization: Choropleth (States light up)
   const mapElement = document.getElementById('map');
   if (mapElement && typeof L !== 'undefined') {
