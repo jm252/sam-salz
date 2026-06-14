@@ -754,10 +754,56 @@ h6 {
   color: #ffffff;
 }
 
+/* Buttons inside content pages keep their own styling, not the link style */
+.legal-content a.btn,
+.legal-content a.btn:hover {
+  color: var(--color-primary-text);
+  text-decoration: none;
+}
+
 .legal-meta {
   color: var(--color-text-muted);
   font-size: 0.9rem;
   margin-top: 2rem;
+}
+
+/* Testimonials & partnerships page */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin: 0;
+}
+
+.testimonial-card blockquote {
+  margin: 0;
+}
+
+.testimonial-card blockquote p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-main);
+  margin: 0 0 1.25rem;
+}
+
+.testimonial-author {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.platform-breakdown {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
 }
 
 /* ---------- Accessibility ---------- */
