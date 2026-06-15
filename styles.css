@@ -861,6 +861,43 @@ h6 {
   background: var(--color-accent);
 }
 
+/* As Seen On press band */
+.section-press {
+  background: #f5f1e8;
+  padding: 2.75rem 0;
+}
+
+.press-label {
+  text-align: center;
+  margin: 0 0 1.75rem;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b6258;
+}
+
+.press-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 2.75rem;
+}
+
+.press-logos img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.press-logos img:hover {
+  opacity: 1;
+}
+
 /* Watch / video embeds */
 .video-grid {
   display: grid;
