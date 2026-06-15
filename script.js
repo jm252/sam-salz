@@ -99,11 +99,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const reduceMotion =
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Boxes with data-format="compact" show abbreviated (e.g. 1M, 500K).
+    const formatStat = (el, value) => {
+      if (el.getAttribute('data-format') === 'compact') {
+        if (value >= 1000000) {
+          const m = value / 1000000;
+          return (Number.isInteger(m) ? m : m.toFixed(1)) + 'M';
+        }
+        if (value >= 1000) return Math.round(value / 1000) + 'K';
+        return String(Math.round(value));
+      }
+      return Math.round(value).toLocaleString('en-US');
+    };
     const runCount = el => {
       const target = parseInt(el.getAttribute('data-target'), 10) || 0;
       const suffix = el.getAttribute('data-suffix') || '';
       if (reduceMotion) {
-        el.textContent = target.toLocaleString('en-US') + suffix;
+        el.textContent = formatStat(el, target) + suffix;
         return;
       }
       const duration = 1600;
@@ -111,8 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const step = now => {
         const progress = Math.min((now - startTime) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-        const value = Math.round(target * eased);
-        el.textContent = value.toLocaleString('en-US') + suffix;
+        el.textContent = formatStat(el, target * eased) + suffix;
         if (progress < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
@@ -135,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statValues.forEach(el => {
         const target = parseInt(el.getAttribute('data-target'), 10) || 0;
         el.textContent =
-          target.toLocaleString('en-US') + (el.getAttribute('data-suffix') || '');
+          formatStat(el, target) + (el.getAttribute('data-suffix') || '');
       });
     }
   }
