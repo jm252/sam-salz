@@ -807,6 +807,24 @@ h6 {
   object-position: center 18%;
 }
 
+/* NIL photo credit — required attribution for Texas A&M uniform photos.
+   Subtle bottom-right overlay; visible at all times (compliance > hover),
+   small enough not to compete with the photo. Text-shadow keeps it
+   legible against any backdrop (bright field, dark tunnel, studio red). */
+.carousel-slide .photo-credit {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+  user-select: none;
+}
+
 .carousel-btn {
   position: absolute;
   top: 50%;
