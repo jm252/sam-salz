@@ -967,6 +967,13 @@ h6 {
   }
 }
 
+/* Compact video grid (podcasts & interviews) — smaller thumbnail frames */
+.video-grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 260px));
+  justify-content: center;
+  gap: 1.5rem 2rem;
+}
+
 /* Testimonials & partnerships page */
 .testimonials-grid {
   display: grid;
