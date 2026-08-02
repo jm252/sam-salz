@@ -582,6 +582,18 @@ h6 {
   }
 }
 
+/* Centered metric layout (partnerships "Reach") */
+.stats-grid.stats-grid--center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.stats-grid.stats-grid--center .stat-block {
+  flex: 0 1 240px;
+}
+
 .platform-name {
   display: block;
   font-weight: 600;
