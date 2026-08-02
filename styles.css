@@ -974,6 +974,31 @@ h6 {
   gap: 1.5rem 2rem;
 }
 
+/* Ways to Partner cards */
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.offer-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+}
+
+.offer-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+}
+
+.offer-card p {
+  margin: 0;
+  color: var(--color-text-body);
+  line-height: 1.6;
+}
+
 /* Testimonials & partnerships page */
 .testimonials-grid {
   display: grid;
