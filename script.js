@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "Texas": 6,
       "Pennsylvania": 4,
       "Georgia": 3,
-      "New Jersey": 3,
+      "New Jersey": 4,
       "Colorado": 2,
       "Arizona": 2,
       "Florida": 1,
