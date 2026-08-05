@@ -226,9 +226,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const regionData = {
       // United States
       "New York": 11,
-      "California": 8,
-      "Texas": 7,
-      "Pennsylvania": 5,
+      "California": 9,
+      "Texas": 6,
+      "Pennsylvania": 4,
       "Georgia": 3,
       "New Jersey": 3,
       "Colorado": 2,
@@ -239,10 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
       "Connecticut": 1,
       "North Carolina": 1,
       "Nevada": 1,
-      "New Hampshire": 1,
       "Kansas": 1,
       "Wisconsin": 1,
       "Ohio": 1,
+      "Oklahoma": 1,
       "District of Columbia": 1,
       // Canada (provinces)
       "Ontario": 2,           // Toronto + Kingston
