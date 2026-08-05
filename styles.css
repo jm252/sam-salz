@@ -1110,6 +1110,27 @@ h6 {
   font-size: 1rem;
 }
 
+/* GoHighLevel embeds (calendar, forms) */
+.booking-form {
+  margin-top: 3rem;
+}
+
+.booking-form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.ghl-form-embed {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.newsletter-embed {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
 /* ---------- Accessibility ---------- */
 
 /* Screen-reader-only content: available to assistive tech, hidden visually */
