@@ -337,3 +337,74 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 });
+
+// Cinematic reel — plays when scrolled into view, pauses when out, custom
+// unmute, and collapses the header to just the "Book to Speak" button.
+(function () {
+  const section = document.getElementById('reel');
+  const iframe = document.getElementById('reel-player');
+  if (!section || !iframe) return;
+
+  let player = null;
+  let ready = false;
+
+  function initPlayer() {
+    player = new YT.Player('reel-player', {
+      events: {
+        onReady: function () {
+          ready = true;
+          setupUnmute();
+        }
+      }
+    });
+  }
+
+  // Hook (or chain) the global the YouTube IFrame API calls when it loads.
+  const prevReady = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function () {
+    if (typeof prevReady === 'function') prevReady();
+    initPlayer();
+  };
+
+  if (window.YT && window.YT.Player) {
+    initPlayer();
+  } else if (!document.getElementById('yt-iframe-api')) {
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+
+  // One observer drives both the header collapse (always) and video
+  // play/pause (once the player is ready).
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          document.body.classList.toggle('reel-active', entry.isIntersecting);
+          if (ready && player && typeof player.playVideo === 'function') {
+            if (entry.isIntersecting) {
+              player.playVideo();
+            } else {
+              player.pauseVideo();
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    obs.observe(section);
+  }
+
+  function setupUnmute() {
+    const btn = document.getElementById('reel-unmute');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      if (!player || typeof player.unMute !== 'function') return;
+      player.unMute();
+      player.setVolume(100);
+      player.playVideo();
+      btn.classList.add('is-hidden');
+    });
+  }
+})();

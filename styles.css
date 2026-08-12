@@ -1046,16 +1046,112 @@ h6 {
   gap: 1.5rem 2rem;
 }
 
-/* Sizzle / promo reel — full-bleed, fills its whole section */
-.reel-frame {
-  width: 100%;
-  margin: 0;
+/* While the cinematic reel fills the screen, collapse the header band to just
+   the "Book to Speak" button (as a white outline). */
+.site-header,
+.site-header .brand,
+.site-header .nav a {
+  transition: opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
 }
 
-.reel-section .video-embed {
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
+.reel-active .site-header {
+  background-color: transparent;
+  backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.reel-active .site-header .brand,
+.reel-active .site-header .nav a:not(.nav-cta) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.reel-active .site-header .nav-cta {
+  background-color: transparent;
+  color: #fff !important;
+  border: 1.5px solid #fff;
+}
+
+.reel-active .site-header .nav-cta:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Sizzle / promo reel — full-screen cinematic, cover-fills the viewport */
+.reel-cinema {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 460px;
+  overflow: hidden;
+  background: #000;
+}
+
+.reel-cinema iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 56.25vw;          /* 16:9 based on width */
+  min-height: 100vh;
+  min-width: 177.78vh;      /* 16:9 based on height */
+  border: 0;
+  pointer-events: none;     /* custom controls handle interaction */
+}
+
+.reel-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 4rem 1.75rem 1.75rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+  pointer-events: none;
+}
+
+.reel-caption span {
+  color: #fff;
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 3vw, 2.25rem);
+  letter-spacing: 0.01em;
+}
+
+.reel-unmute {
+  position: absolute;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, opacity 0.3s ease;
+}
+
+.reel-unmute:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.reel-unmute.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .reel-cinema {
+    height: 70vh;
+  }
 }
 
 /* Ways to Partner cards */

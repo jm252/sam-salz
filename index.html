@@ -105,24 +105,17 @@
         </div>
       </section>
 
-      <!-- Sizzle reel -->
-      <section id="reel" class="section reel-section" data-reveal>
-        <div class="container">
-          <div class="section-header">
-            <h2>Watch the Reel</h2>
-            <p>A quick look at Sam's story &mdash; on stage and on the field.</p>
-          </div>
-        </div>
-        <div class="reel-frame">
-          <div class="video-embed">
-            <iframe
-              src="https://www.youtube.com/embed/O98xNVvG-A4?autoplay=1&mute=1&loop=1&playlist=O98xNVvG-A4&rel=0&modestbranding=1&playsinline=1"
-              title="Sam Salz promo reel"
-              loading="lazy"
-              allow="autoplay; encrypted-media; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-        </div>
+      <!-- Sizzle reel — full-screen cinematic, plays on scroll -->
+      <section id="reel" class="reel-cinema" aria-label="Sam Salz promo reel">
+        <iframe id="reel-player"
+          src="https://www.youtube.com/embed/O98xNVvG-A4?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=O98xNVvG-A4&controls=0&rel=0&modestbranding=1&playsinline=1&showinfo=0"
+          title="Sam Salz promo reel"
+          allow="autoplay; encrypted-media; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+        <div class="reel-caption"><span>Watch the Reel</span></div>
+        <button type="button" class="reel-unmute" id="reel-unmute" aria-label="Turn on sound for the reel">
+          <span aria-hidden="true">🔊</span> Tap for sound
+        </button>
       </section>
 
       <!-- As Seen On -->
