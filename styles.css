@@ -1046,14 +1046,16 @@ h6 {
   gap: 1.5rem 2rem;
 }
 
-/* Sizzle / promo reel — featured, centered frame */
+/* Sizzle / promo reel — full-bleed, fills its whole section */
 .reel-frame {
-  max-width: 880px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
-.reel-frame .video-embed {
-  box-shadow: var(--shadow-xl);
+.reel-section .video-embed {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
 }
 
 /* Ways to Partner cards */
