@@ -1082,6 +1082,27 @@ h6 {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
+/* Instagram reel embed — centered vertical card */
+.ig-reel {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.ig-reel iframe {
+  width: 100%;
+  height: 720px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.ig-reel-cta {
+  text-align: center;
+  margin-top: 1.75rem;
+}
+
 /* Sizzle / promo reel — full-screen cinematic, cover-fills the viewport */
 .reel-cinema {
   position: relative;
