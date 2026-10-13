@@ -212,13 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
       position: 'bottomright'
     }).addTo(map);
 
-    // 2. Base Layer
-    // Using a very dark/simple background so the states pop
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20
-    }).addTo(map);
+    // 2. No external base tiles — the colored regions render directly on a
+    //    solid dark background (set in CSS on .leaflet-container). This keeps
+    //    the map self-contained and free of any third-party tile provider or
+    //    API key.
 
     // 3. Data: speaking engagements per region (US states + Canadian provinces).
     // Tallied from Sam's speaking-engagements record. Canada's provinces are

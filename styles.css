@@ -395,6 +395,11 @@ h6 {
   z-index: 10;
 }
 
+/* No external tiles — solid dark backdrop so the colored regions pop. */
+.leaflet-container {
+  background: #111827;
+}
+
 .map-tooltip {
   background: #1f2937;
   border: 1px solid #374151;
