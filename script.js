@@ -202,10 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollWheelZoom: false,
       zoomControl: false // We recall re-add it or just leave it off for cleaner look
     });
-    // Frame the whole inhabited world so every continent is visible; Sam's
-    // North American engagements light up within it. Users can zoom in with
-    // the control for state-level detail.
-    map.fitBounds([[-55, -170], [72, 175]], { padding: [8, 8] });
+    // Default view frames the US and Canada so Sam's engagements are the
+    // focus; the rest of the world backdrop is still there when you zoom out.
+    map.fitBounds([[24, -127], [62, -56]]);
 
     // Re-add zoom control in a better position if desire, or leave distinct. 
     // Let's add it bottom-right for "clean"
