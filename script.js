@@ -202,9 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollWheelZoom: false,
       zoomControl: false // We recall re-add it or just leave it off for cleaner look
     });
-    // Frame all of North America so the US states, Canadian provinces and
-    // Mexico are all visible at once.
-    map.fitBounds([[14, -125], [56, -58]]);
+    // Frame the whole inhabited world so every continent is visible; Sam's
+    // North American engagements light up within it. Users can zoom in with
+    // the control for state-level detail.
+    map.fitBounds([[-55, -170], [72, 175]], { padding: [8, 8] });
 
     // Re-add zoom control in a better position if desire, or leave distinct. 
     // Let's add it bottom-right for "clean"
@@ -263,12 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Style for a given engagement count
     function styleForCount(count) {
       return {
-        fillColor: count > 0 ? getColor(count) : 'rgba(255,255,255,0.02)', // Faint for inactive regions
+        fillColor: count > 0 ? getColor(count) : '#1e293b', // Muted land for inactive regions
         weight: 1,
         opacity: 1,
         color: 'rgba(148, 163, 184, 0.3)', // Border color
         dashArray: '',
-        fillOpacity: count > 0 ? 0.7 : 0.1 // Active regions pop, inactive fade back
+        fillOpacity: count > 0 ? 0.8 : 0.55 // Active regions pop; land stays muted
       };
     }
 
@@ -310,7 +311,28 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.error('Could not load map layer:', url, err));
     }
 
-    // 7. Load the three region layers (US states, Canadian provinces, Mexico).
+    // 7. World backdrop — faint land shapes for every other country, so the
+    //    map reads as a real world map with Sam's regions lit up inside it.
+    //    (USA/Canada/Mexico are excluded here; their detailed, colored shapes
+    //    are drawn by the layers below.)
+    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+      .then(r => r.json())
+      .then(world => {
+        L.geoJson(world, {
+          interactive: false,
+          filter: f => !['USA', 'CAN', 'MEX'].includes(f.id),
+          style: () => ({
+            fillColor: '#1e293b',
+            fillOpacity: 0.55,
+            weight: 0.8,
+            opacity: 1,
+            color: 'rgba(148, 163, 184, 0.22)'
+          })
+        }).addTo(map);
+      })
+      .catch(err => console.error('Could not load world backdrop:', err));
+
+    // 8. Load the three colored region layers (US states, Canadian provinces, Mexico).
     const byName = feature => regionData[feature.properties.name] || 0;
     const nameOf = feature => feature.properties.name;
 
