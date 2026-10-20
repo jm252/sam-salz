@@ -1244,25 +1244,33 @@ h6 {
   font-size: 1rem;
 }
 
-/* GoHighLevel embeds (calendar, forms) */
-.booking-form {
-  margin-top: 3rem;
-}
-
-.booking-form-title {
+/* Email-based contact (replaced the GoHighLevel embeds) */
+.booking-cta-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
 }
 
-.ghl-form-embed {
-  max-width: 640px;
-  margin: 0 auto;
+.booking-cta-card h3 {
+  margin-top: 0;
+}
+
+.booking-cta-card .btn {
+  margin-top: 0.5rem;
+}
+
+.booking-cta-alt {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
 }
 
 .newsletter-embed {
   max-width: 520px;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* ---------- Accessibility ---------- */
